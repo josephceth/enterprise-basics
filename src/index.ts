@@ -1,5 +1,8 @@
-// Export individual functions
+//Excel
 export { readExcelSheetData } from './excel/readExcelSheetData';
-
-// You can also export types if you have any
+export { createExcelFileByteArray } from './excel/createExcelFileByteArray';
 export type { ExcelRow, ExcelCellValue } from './excel/readExcelSheetData';
+
+//File System
+export { saveFileBytesToPath } from './fileSystem/saveFileBytesToPath';
+export type { FileInput } from './fileSystem/saveFileBytesToPath';
