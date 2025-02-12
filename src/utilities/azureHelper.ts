@@ -40,7 +40,7 @@ type AuthParams = z.infer<typeof validationSchema>;
 export async function getAzureAuthToken(
   tenantId: AuthParams['tenantId'],
   clientId: AuthParams['clientId'],
-  clientSecret: AuthParams['clientSecret']
+  clientSecret: AuthParams['clientSecret'],
 ): Promise<string> {
   // Validate inputs
   const validationResult = validateWithZod(validationSchema, { tenantId, clientId, clientSecret });

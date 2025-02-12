@@ -1,6 +1,6 @@
 {
   "name": "enterprise-basics",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A utility library for enterprise applications. It streamlines common business tasks by providing functions to process delimited and Excel files, generate professional PDFs, and handle email communications with attachments.",
   "main": "dist/index.js",
   "files": [
@@ -10,7 +10,7 @@
     "build": "tsc",
     "test": "test",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "start": "dotenv -e .env -- ts-node src/dev/dev.ts"
+    "start": "ts-node src/dev/dev.ts"
   },
   "types": "dist/index.d.ts",
   "keywords": [
@@ -29,12 +29,14 @@
   "devDependencies": {
     "@types/node": "^22.13.1",
     "prettier": "^3.5.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "exceljs": "^4.4.0",
-    "zod": "^3.24.2",
     "@azure/app-configuration": "^1.8.0",
-    "dotenv": "^16.4.7"
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.4.7",
+    "exceljs": "^4.4.0",
+    "zod": "^3.24.2"
   }
 }
