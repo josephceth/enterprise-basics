@@ -6,10 +6,9 @@ on:
       - main
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      # Check out the code from your repository
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -18,41 +17,14 @@ jobs:
         with:
           version: 8
 
-      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-
-      # Install dependencies and generate lock file
-      - name: Install dependencies
-        run: pnpm install
-
-      # Build your TypeScript project (compiles to dist/)
-      - name: Build
-        run: pnpm run build
-
-      # (Optional) Run tests if you have any
-     # - name: Run tests
-      #  run: npm test
-
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    # Only run publish when a tag is pushed
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js for Publishing
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
+          node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: pnpm ci
+        run: pnpm install
 
       - name: Build
         run: pnpm run build
