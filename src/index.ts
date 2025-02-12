@@ -1,8 +1,5 @@
-import { importExcelFile } from './excel/readExcelSheetData';
+// Export individual functions
+export { importExcelFile } from './excel/readExcelSheetData';
 
-async function main() {
-  const data = await importExcelFile('c:/temp/test.xlsx', 'Sheet1');
-  console.log(data);
-}
-
-main().catch(console.error);
+// You can also export types if you have any
+export type { ExcelRow, ExcelCellValue } from './excel/readExcelSheetData';

@@ -1,12 +1,12 @@
 import * as Excel from 'exceljs';
 import { z } from 'zod';
-import { validateWithZod } from './utilities/zodUtility';
+import { validateWithZod } from '../utilities/zodUtility';
 import { existsSync } from 'fs';
 
 /**
  * Represents possible values that can be stored in an Excel cell
  */
-type ExcelCellValue =
+export type ExcelCellValue =
   | string
   | number
   | boolean
@@ -21,7 +21,7 @@ type ExcelCellValue =
 /**
  * Represents a row of data from an Excel sheet where each key is the column header
  */
-type ExcelRow = Record<string, ExcelCellValue>;
+export type ExcelRow = Record<string, ExcelCellValue>;
 
 /**
  * Validation schema for input parameters
