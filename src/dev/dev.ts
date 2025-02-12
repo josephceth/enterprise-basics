@@ -10,9 +10,9 @@ async function main() {
   ];
 
   console.log('data', data);
-  const excelFile = await createExcelFileByteArray(data);
-  console.log('excelFile', excelFile);
-  await saveFileBytesToPath({ name: 'test.xlsx', data: excelFile }, 'c:/exports');
+  const excelBytes = await createExcelFileByteArray(data);
+  console.log('excelBytes', excelBytes);
+  await saveFileBytesToPath(excelBytes, 'test.xlsx', 'c:/exports');
   console.log('File saved to c:/exports');
 }
 

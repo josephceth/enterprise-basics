@@ -4,17 +4,17 @@ A utility library for enterprise applications. It streamlines common business ta
 
 ## Excel Functions
 
-### createExcelBytes
+### createExcelFileByteArray
 
 Creates an Excel file from an array of objects and returns it as a byte array.
 
 ```typescript
-import { createExcelBytes } from 'enterprise-basics';
+import { createExcelFileByteArray } from 'enterprise-basics';
 const data = [
   { name: 'John', age: 30, joined: new Date() },
   { name: 'Jane', age: 25, joined: new Date() },
 ];
-const bytes = await createExcelBytes(data, {
+const bytes = await createExcelFileByteArray(data, {
   sheetName: 'Employees',
   dateFormat: 'mm/dd/yyyy',
   headerStyle: {
@@ -41,9 +41,23 @@ const data = await readExcelSheetData('path/to/excel/file.xlsx', 'Sheet1');
 
 ### saveFileBytesToPath
 
-Saves binary data (like Excel file bytes) to a specified path.
+Saves binary data (like Excel file bytes) to a specified path, with optional sheet name, date format, and header style.
 
 ```typescript
 import { saveFileBytesToPath } from 'enterprise-basics';
-const path = await saveFileBytesToPath('path/to/save/file.xlsx', 'path/to/save/file.xlsx');
+import { createExcelFileByteArray } from 'enterprise-basics';
+
+const data = [
+  { name: 'John', age: 30, joined: new Date() },
+  { name: 'Jane', age: 25, joined: new Date() },
+];
+
+const excelBytes = await createExcelFileByteArray(data, {
+  sheetName: 'Employees',
+  dateFormat: 'mm/dd/yyyy',
+  headerStyle: {
+    font: { bold: true, size: 12 },
+  },
+});
+const path = await saveFileBytesToPath(excelBytes, 'test.xlsx', 'c:/exports');
 ```
