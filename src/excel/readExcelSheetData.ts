@@ -38,7 +38,7 @@ const validationSchema = z.object({
  * @returns Array of objects where each object represents a row with column headers as keys
  * @throws {Error} If file doesn't exist, sheet not found, or validation fails
  */
-export async function importExcelFile(filePath: string, sheetName: string): Promise<ExcelRow[]> {
+export async function readExcelSheetData(filePath: string, sheetName: string): Promise<ExcelRow[]> {
   const validationResult = validateWithZod(validationSchema, { filepath: filePath, sheetname: sheetName });
 
   if (validationResult.isError) {
