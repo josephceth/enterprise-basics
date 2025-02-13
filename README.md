@@ -75,7 +75,7 @@ Reads data from an Excel file and returns it as an array of objects.
 
 ```typescript
 import { readExcelSheetData } from 'enterprise-basics';
-const data = await readExcelSheetData('path/to/excel/file.xlsx', 'Sheet1');
+const data = await readExcelSheetData('path/to/excel/file.xlsx', 'Sheet1', 1);
 ```
 
 ## File System Functions

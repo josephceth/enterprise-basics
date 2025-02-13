@@ -29,17 +29,23 @@ export type ExcelRow = Record<string, ExcelCellValue>;
 const validationSchema = z.object({
   filepath: z.string().min(10, 'filepath too short').nonempty('filepath cannot be empty'),
   sheetname: z.string().min(1, 'sheetname is too short').nonempty('sheetname cannot be empty'),
+  headerRow: z.number().min(1, 'headerRow must be at least 1').max(100, 'headerRow must be less than 100'),
 });
 
 /**
  * Imports data from an Excel file (.xlsx)
  * @param filePath - Path to the Excel file
  * @param sheetName - Name of the worksheet to read
+ * @param headerRow - Row number of the header row (1-based index) (default is 1)
  * @returns Array of objects where each object represents a row with column headers as keys
  * @throws {Error} If file doesn't exist, sheet not found, or validation fails
  */
-export async function readExcelSheetData(filePath: string, sheetName: string): Promise<ExcelRow[]> {
-  const validationResult = validateWithZod(validationSchema, { filepath: filePath, sheetname: sheetName });
+export async function readExcelSheetData(
+  filePath: string,
+  sheetName: string,
+  headerRow: number = 1,
+): Promise<ExcelRow[]> {
+  const validationResult = validateWithZod(validationSchema, { filepath: filePath, sheetname: sheetName, headerRow });
 
   if (validationResult.isError) {
     throw new Error(`Import delimited file validation failed: ${JSON.stringify(validationResult.error)}`);
@@ -57,7 +63,7 @@ export async function readExcelSheetData(filePath: string, sheetName: string): P
     throw new Error(`Sheet '${sheetName}' not found in the workbook`);
   }
 
-  const headers = worksheet.getRow(1).values as string[];
+  const headers = worksheet.getRow(headerRow).values as string[];
   if (!headers?.length) {
     throw new Error('No headers found in the first row');
   }
@@ -66,7 +72,7 @@ export async function readExcelSheetData(filePath: string, sheetName: string): P
   headers.shift();
 
   return (
-    worksheet.getRows(2, worksheet.rowCount - 1)?.map((row) => {
+    worksheet.getRows(headerRow + 1, worksheet.rowCount)?.map((row) => {
       const rowObject: ExcelRow = {};
       headers.forEach((header, index) => {
         const cell = row.getCell(index + 1);
