@@ -7,11 +7,7 @@ const inputSchema = z.object({
     .instanceof(Uint8Array)
     .or(z.string())
     .refine((data) => data.length > 0, 'File data cannot be empty'),
-  fileName: z
-    .string()
-    .min(1, 'Filename cannot be empty')
-    .regex(/^[\w\-. ]+$/, 'Filename contains invalid characters')
-    .refine((name) => !name.includes('..'), "Filename cannot contain '..'"),
+  fileName: z.string().min(1, 'Filename cannot be empty'),
   directoryPath: z.string().min(1, 'Directory path cannot be empty'),
 });
 
