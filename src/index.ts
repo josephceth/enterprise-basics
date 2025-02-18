@@ -5,6 +5,9 @@ export { getAzureConfigValue } from './azure/appConfig/getAppConfigValue';
 export { createDelimitedFileByteArray } from './delimitedFiles/createDelimitedFileByteArray';
 export { importDelimitedFile } from './delimitedFiles/importDelimitedFile';
 
+//Database
+export { executeSqlQuery } from './database/mssql/executeSQLQuery';
+
 //Excel
 export { readExcelSheetData } from './excel/readExcelSheetData';
 export { createExcelFileByteArray } from './excel/createExcelFileByteArray';
