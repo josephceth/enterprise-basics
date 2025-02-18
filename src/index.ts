@@ -16,6 +16,7 @@ export type { ExcelRow, ExcelCellValue } from './excel/readExcelSheetData';
 //File System
 export { saveFileBytesToPath } from './fileSystem/saveFileBytesToPath';
 export { readTextFile } from './fileSystem/readTextFile';
+export { getEnvValue } from './fileSystem/getEnvValue';
 
 //MS Graph
 export { graphUserSearchByEmail } from './msGraph/graphUserSearchByEmail';
