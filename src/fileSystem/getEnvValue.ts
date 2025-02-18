@@ -10,5 +10,5 @@ export function getEnvValue(key: string) {
   if (!value) {
     throw new Error(`Environment variable ${key} is not set in the .env file or environment variables`);
   }
-  return value;
+  return value[0];
 }
