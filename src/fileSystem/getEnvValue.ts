@@ -5,10 +5,10 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-export function getEnvValue(key: string) {
+export function getEnvValue(key: string): string {
   const value = process.env[key];
   if (!value) {
     throw new Error(`Environment variable ${key} is not set in the .env file or environment variables`);
   }
-  return value[0];
+  return value.toString();
 }
