@@ -12,6 +12,7 @@ const validationSchema = z.object({
  * @param {any[]} data - Array of objects to be converted to CSV format
  * @param {',' | ';' | '|'} [delimiter=','] - Character to use as delimiter between fields
  * @param {string} [dateFormat='mm/dd/yyyy'] - Format to use for date fields
+ * @param {Object} [columnFormats] - Optional column format specifications
  *
  * @returns {Promise<Uint8Array | string>} Returns either:
  *   - Uint8Array containing the CSV file bytes
@@ -26,10 +27,11 @@ const validationSchema = z.object({
  * ];
  * const csvBytes = await createDelimitedFileBytes(data, ',', 'mm/dd/yyyy');
  */
-export async function createDelimitedFileByteArray(
+export async function createDelimitedFileBytes(
   data: any[],
   delimiter: ',' | ';' | '|' = ',',
   dateFormat: string = 'mm/dd/yyyy',
+  columnFormats?: { [key: string]: { type: 'text' | 'date' | 'number' } },
 ): Promise<Uint8Array | string> {
   const validationResult = validateWithZod(validationSchema, { data });
 
@@ -48,33 +50,68 @@ export async function createDelimitedFileByteArray(
     // Get headers from first data object
     const headers = Object.keys(data[0]);
 
-    // Set up columns
-    worksheet.columns = headers.map((header) => ({
-      header,
-      key: header,
-      width: 15,
-    }));
+    // Helper function to detect if a value should be a date
+    const isValidDate = (value: any): boolean => {
+      if (value instanceof Date) return true;
+      if (typeof value !== 'string') return false;
+      const date = new Date(value);
+      return date instanceof Date && !isNaN(date.getTime()) && /^\d{4}-\d{2}-\d{2}/.test(value); // Only match explicit date formats
+    };
 
-    // Format dates before adding rows
-    const formattedData = data.map((row) => {
-      const formattedRow = { ...row };
-      Object.entries(row).forEach(([key, value]) => {
-        if (value instanceof Date || (typeof value === 'string' && !isNaN(Date.parse(value)))) {
-          const date = new Date(value);
-          // Format the date according to the specified format
-          formattedRow[key] = date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-          });
+    // Set up columns with smart type detection
+    worksheet.columns = headers.map((header) => {
+      const columnFormat = columnFormats?.[header];
+      const sampleValues = data.map((row) => row[header]).filter((v) => v != null);
+
+      let style = {};
+
+      // Use explicit format if provided
+      if (columnFormat) {
+        style = {
+          numFmt: columnFormat.type === 'text' ? '@' : columnFormat.type === 'date' ? dateFormat : 'General',
+        };
+      } else {
+        // Auto-detect format based on first non-null value
+        const firstValue = sampleValues[0];
+        if (typeof firstValue === 'string' && (firstValue.includes('-') || firstValue.includes('/'))) {
+          style = { numFmt: '@' }; // Force text for strings with dashes or slashes
         }
-      });
-      return formattedRow;
+      }
+
+      return {
+        header,
+        key: header,
+        width: 15,
+        style,
+      };
     });
 
-    // Add formatted rows
-    formattedData.forEach((row) => {
-      worksheet.addRow(row);
+    // Add all data rows
+    data.forEach((row) => {
+      const formattedRow = { ...row };
+      Object.entries(row).forEach(([key, value]) => {
+        if (!value) {
+          formattedRow[key] = '';
+          return;
+        }
+
+        const columnFormat = columnFormats?.[key];
+
+        if (columnFormat?.type === 'text' || typeof value === 'string') {
+          formattedRow[key] = value.toString();
+        } else if (columnFormat?.type === 'date' || isValidDate(value)) {
+          if (value instanceof Date || typeof value === 'string' || typeof value === 'number') {
+            formattedRow[key] = new Date(value);
+            const cell = worksheet.lastRow?.getCell(key);
+            if (cell) {
+              cell.numFmt = dateFormat;
+            }
+          }
+        } else {
+          formattedRow[key] = value;
+        }
+      });
+      worksheet.addRow(formattedRow);
     });
 
     const buffer = await workbook.csv.writeBuffer({
