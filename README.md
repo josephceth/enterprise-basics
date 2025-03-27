@@ -20,6 +20,11 @@ npm install enterprise-basics
 - `deleteBlob`: Deletes a blob from Azure Blob Storage
 - `getBlob`: Downloads a blob from Azure Blob Storage as a Buffer
 
+### Azure AI
+
+- `generateCompletion`: Generates a single-turn completion using Azure-hosted OpenAI models.
+  Designed for one-off completions and should not be used for maintaining chat history or conversational interactions.
+
 ### Database
 
 - `executeSqlQuery`: Executes SQL queries against Microsoft SQL Server databases
@@ -70,6 +75,24 @@ const buffer = await getBlob(connectionString, 'my-container', 'path/to/file.txt
 import { getAzureConfigValue } from 'enterprise-basics';
 
 const configValue = await getAzureConfigValue('myApp.setting', 'dev');
+```
+
+### Azure AI (Single-turn Completion)
+
+```typescript
+import { generateCompletion } from 'enterprise-basics';
+
+// Note: This is for single-turn completions only, not for chat/conversations
+const completion = await generateCompletion(
+  'https://your-resource.openai.azure.com',
+  'your-api-key',
+  'your-deployment-name',
+  [
+    { role: 'system', content: 'You are a helpful assistant.' },
+    { role: 'user', content: 'What is the capital of France?' },
+  ],
+  { temperature: 0.7 },
+);
 ```
 
 ### Excel Operations

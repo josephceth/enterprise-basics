@@ -20,17 +20,22 @@ const validationSchema = z.object({
   frequencyPenalty: z.number().min(-2).max(2).optional(),
   presencePenalty: z.number().min(-2).max(2).optional(),
   stop: z.array(z.string()).optional(),
+  returnJson: z.boolean().optional(),
 });
 
 type CompletionParams = z.infer<typeof validationSchema>;
 
 /**
- * Generates a chat completion using an Azure-hosted OpenAI model
+ * Generates a single-turn completion using an Azure-hosted OpenAI model.
+ * This function is designed for one-off completions and should not be used for
+ * maintaining chat history or conversational interactions.
  *
  * @param {string} endpoint - Azure OpenAI endpoint URL
  * @param {string} apiKey - Azure OpenAI API key
  * @param {string} deploymentName - Name of the deployed model
- * @param {Array<{role: string, content: string}>} messages - Array of messages for the conversation
+ * @param {Array<{role: string, content: string}>} messages - Array of messages for the conversation.
+ *                        Should typically include a system message and a single user message.
+ *                        Not designed for maintaining chat history.
  * @param {Object} options - Optional parameters
  * @param {number} [options.temperature] - Controls randomness (0-2)
  * @param {number} [options.maxTokens] - Maximum number of tokens to generate
@@ -38,6 +43,7 @@ type CompletionParams = z.infer<typeof validationSchema>;
  * @param {number} [options.frequencyPenalty] - Controls repetition (-2 to 2)
  * @param {number} [options.presencePenalty] - Controls topic diversity (-2 to 2)
  * @param {string[]} [options.stop] - Sequences where the API will stop generating
+ * @param {boolean} [options.returnJson] - Whether to force JSON response format
  *
  * @returns {Promise<string>} The generated completion text
  *
@@ -54,9 +60,12 @@ type CompletionParams = z.infer<typeof validationSchema>;
  *     'your-deployment-name',
  *     [
  *       { role: 'system', content: 'You are a helpful assistant.' },
- *       { role: 'user', content: 'Hello! Can you help me with something?' }
+ *       { role: 'user', content: 'What is the capital of France?' }
  *     ],
- *     { temperature: 0.7 }
+ *     {
+ *       temperature: 0.7,
+ *       returnJson: true
+ *     }
  *   );
  *   console.log(completion);
  * } catch (error) {
@@ -90,7 +99,7 @@ export async function generateCompletion(
       apiVersion: '2025-01-01-preview',
     });
 
-    const result = await client.chat.completions.create({
+    const completionOptions = {
       model: deploymentName,
       messages,
       temperature: options.temperature,
@@ -99,7 +108,10 @@ export async function generateCompletion(
       frequency_penalty: options.frequencyPenalty,
       presence_penalty: options.presencePenalty,
       stop: options.stop,
-    });
+      ...(options.returnJson && { response_format: { type: 'json_object' as const } }),
+    };
+
+    const result = await client.chat.completions.create(completionOptions);
 
     return result.choices[0]?.message?.content ?? '';
   } catch (error) {
