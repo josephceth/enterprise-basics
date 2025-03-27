@@ -1,6 +1,6 @@
 {
   "name": "enterprise-basics",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "A utility library for enterprise applications. It streamlines common business tasks by providing functions to process delimited and Excel files, generate professional PDFs, and handle email communications with attachments.",
   "main": "dist/index.js",
   "files": [
@@ -35,11 +35,13 @@
   },
   "dependencies": {
     "@azure/app-configuration": "^1.8.0",
+    "@azure/openai": "^2.0.0",
     "@azure/storage-blob": "^12.27.0",
     "csv-parse": "^5.6.0",
     "dotenv": "^16.4.7",
     "exceljs": "^4.4.0",
     "mssql": "^11.0.1",
+    "openai": "^4.28.0",
     "zod": "^3.24.2"
   }
 }

@@ -6,6 +6,9 @@ export { uploadBlob } from './azure/storage/uploadBlob';
 export { deleteBlob } from './azure/storage/deleteBlob';
 export { getBlob } from './azure/storage/getBlob';
 
+//Azure AI
+export { generateCompletion } from './azure/ai/generateCompletion';
+
 //Database
 export { executeSqlQuery } from './database/mssql/executeSQLQuery';
 

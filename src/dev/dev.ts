@@ -7,6 +7,7 @@ import { importDelimitedFile } from '../delimitedFiles/importDelimitedFile';
 import { readExcelSheetData } from '../excel/readExcelSheetData';
 import { readTextFile } from '../fileSystem/readTextFile';
 import { graphUserSearchByEmail } from '../msGraph/graphUserSearchByEmail';
+import { generateCompletion } from '../azure/ai/generateCompletion';
 async function main() {
   console.log('Creating excel file...');
   const data = [
@@ -53,6 +54,9 @@ async function main() {
 
   const graphUser = await graphUserSearchByEmail('', tenantId, clientId, clientSecret);
   console.log('graphUser', graphUser);
+
+  const completion = await generateCompletion('', '', 'gpt-4o', [{ role: 'user', content: 'Hello, world!' }]);
+  console.log('completion', completion);
 }
 
 main().catch(console.error);
