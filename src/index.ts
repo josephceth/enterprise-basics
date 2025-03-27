@@ -1,12 +1,17 @@
 //Azure App Configuration
 export { getAzureConfigValue } from './azure/appConfig/getAppConfigValue';
 
-//Delimited Files
-export { createDelimitedFileByteArray } from './delimitedFiles/createDelimitedFileByteArray';
-export { importDelimitedFile } from './delimitedFiles/importDelimitedFile';
+//Azure Storage
+export { uploadBlob } from './azure/storage/uploadBlob';
+export { deleteBlob } from './azure/storage/deleteBlob';
+export { getBlob } from './azure/storage/getBlob';
 
 //Database
 export { executeSqlQuery } from './database/mssql/executeSQLQuery';
+
+//Delimited Files
+export { createDelimitedFileBytes } from './delimitedFiles/createDelimitedFileByteArray';
+export { importDelimitedFile } from './delimitedFiles/importDelimitedFile';
 
 //Excel
 export { readExcelSheetData } from './excel/readExcelSheetData';

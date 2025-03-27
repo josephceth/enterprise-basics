@@ -1,5 +1,5 @@
 //create excel file and save to drive
-import { createDelimitedFileByteArray } from '../delimitedFiles/createDelimitedFileByteArray';
+import { createDelimitedFileBytes } from '../delimitedFiles/createDelimitedFileByteArray';
 import { createExcelFileByteArray } from '../excel/createExcelFileByteArray';
 import { saveFileBytesToPath } from '../fileSystem/saveFileBytesToPath';
 import { getAzureConfigValue } from '../azure/appConfig/getAppConfigValue';
@@ -23,7 +23,7 @@ async function main() {
   const appConfigValue = await getAzureConfigValue('ADP-FSA:FilePath', 'dev');
   console.log('appConfigValue', appConfigValue);
 
-  const delimitedBytes = await createDelimitedFileByteArray(data);
+  const delimitedBytes = await createDelimitedFileBytes(data);
   console.log('delimitedBytes', delimitedBytes);
   await saveFileBytesToPath(delimitedBytes, 'test.csv', 'c:/exports');
   console.log('File saved to c:/exports');

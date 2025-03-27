@@ -8,6 +8,9 @@ dependencies:
   '@azure/app-configuration':
     specifier: ^1.8.0
     version: 1.8.0
+  '@azure/storage-blob':
+    specifier: ^12.27.0
+    version: 12.27.0
   csv-parse:
     specifier: ^5.6.0
     version: 5.6.0
@@ -143,6 +146,14 @@ packages:
       '@azure/abort-controller': 2.1.2
       tslib: 2.8.1
 
+  /@azure/core-xml@1.4.5:
+    resolution: {integrity: sha512-gT4H8mTaSXRz7eGTuQyq1aIJnJqeXzpOe9Ay7Z3FrCouer14CbV3VzjnJrNrQfbBpGBLO9oy8BmrY75A0p53cA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      fast-xml-parser: 5.0.9
+      tslib: 2.8.1
+    dev: false
+
   /@azure/identity@4.6.0:
     resolution: {integrity: sha512-ANpO1iAvcZmpD4QY7/kaE/P2n66pRXsDp3nMUC6Ow3c9KfXOZF7qMU9VgqPw8m7adP7TVIbVyrCEmD9cth3KQQ==}
     engines: {node: '>=18.0.0'}
@@ -225,6 +236,27 @@ packages:
       '@azure/msal-common': 14.16.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
+
+  /@azure/storage-blob@12.27.0:
+    resolution: {integrity: sha512-IQjj9RIzAKatmNca3D6bT0qJ+Pkox1WZGOg2esJF2YLHb45pQKOwGPIAV+w3rfgkj7zV3RMxpn/c6iftzSOZJQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.2.0
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/core-xml': 1.4.5
+      '@azure/logger': 1.1.4
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -604,6 +636,13 @@ packages:
     dependencies:
       '@fast-csv/format': 4.3.5
       '@fast-csv/parse': 4.3.6
+    dev: false
+
+  /fast-xml-parser@5.0.9:
+    resolution: {integrity: sha512-2mBwCiuW3ycKQQ6SOesSB8WeF+fIGb6I/GG5vU5/XEptwFFhp9PE8b9O7fbs2dpq9fXn4ULR3UsfydNUCntf5A==}
+    hasBin: true
+    dependencies:
+      strnum: 2.0.5
     dev: false
 
   /fs-constants@1.0.0:
@@ -1016,6 +1055,10 @@ packages:
     resolution: {integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==}
     dependencies:
       safe-buffer: 5.2.1
+
+  /strnum@2.0.5:
+    resolution: {integrity: sha512-YAT3K/sgpCUxhxNMrrdhtod3jckkpYwH6JAuwmUdXZsmzH1wUyzTMrrK2wYCEEqlKwrWDd35NeuUkbBy/1iK+Q==}
+    dev: false
 
   /tar-stream@2.2.0:
     resolution: {integrity: sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==}
