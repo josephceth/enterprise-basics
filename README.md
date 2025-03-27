@@ -52,6 +52,44 @@ npm install enterprise-basics
 
 - `graphUserSearchByEmail`: Searches for users in Microsoft Graph by email address
 
+### Email
+
+### `sendEmail`
+
+Sends an email with optional attachments using SMTP.
+
+```typescript
+await sendEmail(
+  {
+    from: 'sender@example.com',
+    to: ['recipient@example.com'],
+    subject: 'Test Email',
+    body: 'This is a test email with attachment',
+    attachments: [
+      {
+        filename: 'test.pdf',
+        fileBytes: new Uint8Array([255, 255]),
+        contentType: 'application/pdf',
+      },
+    ],
+  },
+  {
+    host: 'smtp.example.com',
+    port: 587,
+    auth: { user: 'user', pass: 'pass' },
+  },
+);
+```
+
+**Parameters:**
+
+- `email`: Email content including sender, recipients, subject, body, and attachments
+- `smtpConfig`: SMTP server configuration
+
+**Returns:** Promise that resolves when email is sent successfully
+
+**Throws:** Error if validation fails, client creation fails, or sending fails
+
 ## Usage Examples
 
 ### Azure Storage
@@ -128,6 +166,33 @@ const apiKey = await getEnvValue('API_KEY');
 import { graphUserSearchByEmail } from 'enterprise-basics';
 
 const user = await graphUserSearchByEmail('user@example.com');
+```
+
+### Email
+
+```typescript
+import { sendEmail } from 'enterprise-basics';
+
+await sendEmail(
+  {
+    from: 'sender@example.com',
+    to: ['recipient@example.com'],
+    subject: 'Test Email',
+    body: 'This is a test email with attachment',
+    attachments: [
+      {
+        filename: 'test.pdf',
+        fileBytes: new Uint8Array([255, 255]),
+        contentType: 'application/pdf',
+      },
+    ],
+  },
+  {
+    host: 'smtp.example.com',
+    port: 587,
+    auth: { user: 'user', pass: 'pass' },
+  },
+);
 ```
 
 ## Error Handling

@@ -16,6 +16,10 @@ export { executeSqlQuery } from './database/mssql/executeSQLQuery';
 export { createDelimitedFileBytes } from './delimitedFiles/createDelimitedFileByteArray';
 export { importDelimitedFile } from './delimitedFiles/importDelimitedFile';
 
+//Email
+export { sendEmail } from './email/sendEmail';
+export type { EmailWithAttachment, SMTPConfig, Attachment } from './email/sendEmail';
+
 //Excel
 export { readExcelSheetData } from './excel/readExcelSheetData';
 export { createExcelFileByteArray } from './excel/createExcelFileByteArray';

@@ -1,4 +1,3 @@
-//create excel file and save to drive
 import { createDelimitedFileBytes } from '../delimitedFiles/createDelimitedFileByteArray';
 import { createExcelFileByteArray } from '../excel/createExcelFileByteArray';
 import { saveFileBytesToPath } from '../fileSystem/saveFileBytesToPath';
@@ -8,6 +7,7 @@ import { readExcelSheetData } from '../excel/readExcelSheetData';
 import { readTextFile } from '../fileSystem/readTextFile';
 import { graphUserSearchByEmail } from '../msGraph/graphUserSearchByEmail';
 import { generateCompletion } from '../azure/ai/generateCompletion';
+import { sendEmail, SMTPConfig, EmailWithAttachment } from '../email/sendEmail';
 async function main() {
   // console.log('Creating excel file...');
   // const data = [
@@ -38,16 +38,34 @@ async function main() {
   // const textFile = await readTextFile('c:/exports/sql.sql');
   // console.log('textFile', textFile);
 
-  // const [smtpHost, smtpPassword, smtpPort, smtpUsername, tenantId, clientId, clientSecret] = await Promise.all([
-  //   getAzureConfigValue('SMTP:Host', 'prod'),
-  //   getAzureConfigValue('SMTP:Password', 'prod'),
-  //   getAzureConfigValue('SMTP:Port', 'prod'),
-  //   getAzureConfigValue('SMTP:Username', 'prod'),
-  //   getAzureConfigValue('GraphExplorer:TenantId', 'prod'),
-  //   getAzureConfigValue('GraphExplorer:ClientId', 'prod'),
-  //   getAzureConfigValue('GraphExplorer:ClientSecret', 'prod'),
-  // ]);
+  const [smtpHost, smtpPassword, smtpPort, smtpUsername, tenantId, clientId, clientSecret] = await Promise.all([
+    getAzureConfigValue('SMTP:Host', 'prod'),
+    getAzureConfigValue('SMTP:Password', 'prod'),
+    getAzureConfigValue('SMTP:Port', 'prod'),
+    getAzureConfigValue('SMTP:Username', 'prod'),
+    getAzureConfigValue('GraphExplorer:TenantId', 'prod'),
+    getAzureConfigValue('GraphExplorer:ClientId', 'prod'),
+    getAzureConfigValue('GraphExplorer:ClientSecret', 'prod'),
+  ]);
 
+  if (!smtpHost || !smtpPassword || !smtpPort || !smtpUsername || !tenantId || !clientId || !clientSecret) {
+    throw new Error('Missing required environment variables');
+  }
+
+  const smtpconfig: SMTPConfig = {
+    host: smtpHost,
+    port: Number(smtpPort),
+    auth: { user: smtpUsername, pass: smtpPassword },
+  };
+
+  const email: EmailWithAttachment = {
+    from: 'No Reply <no-reply@brownandroot.com>',
+    to: ['joseph.chustz@brownandroot.com'],
+    subject: 'Test Email',
+    body: 'This is a test email',
+  };
+
+  await sendEmail(email, smtpconfig);
   // if (!tenantId || !clientId || !clientSecret) {
   //   throw new Error('Missing required environment variables');
   // }
@@ -55,7 +73,16 @@ async function main() {
   // const graphUser = await graphUserSearchByEmail('', tenantId, clientId, clientSecret);
   // console.log('graphUser', graphUser);
 
-  const completion = await generateCompletion('', '', 'gpt-4o', [
+  const openaiEndpoint = process.env.OPENAI_ENDPOINT;
+  const openaiApiKey = process.env.OPENAI_API_KEY;
+
+  console.log('openaiEndpoint', openaiEndpoint);
+  console.log('openaiApiKey', openaiApiKey);
+  if (!openaiEndpoint || !openaiApiKey) {
+    throw new Error('Missing required environment variables');
+  }
+
+  const completion = await generateCompletion(openaiEndpoint, openaiApiKey, 'gpt-4o', [
     {
       role: 'user',
       content:
