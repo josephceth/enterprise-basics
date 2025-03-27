@@ -5,6 +5,7 @@ export { getAzureConfigValue } from './azure/appConfig/getAppConfigValue';
 export { uploadBlob } from './azure/storage/uploadBlob';
 export { deleteBlob } from './azure/storage/deleteBlob';
 export { getBlob } from './azure/storage/getBlob';
+export type { UploadParams } from './azure/storage/uploadBlob';
 
 //Azure AI
 export { generateCompletion } from './azure/ai/generateCompletion';

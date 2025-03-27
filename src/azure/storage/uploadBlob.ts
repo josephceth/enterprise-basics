@@ -9,7 +9,7 @@ const validationSchema = z.object({
   file: z.instanceof(File, { message: 'File object is required' }),
 });
 
-type UploadParams = z.infer<typeof validationSchema>;
+export type UploadParams = z.infer<typeof validationSchema>;
 
 /**
  * Uploads a file to Azure Blob Storage
