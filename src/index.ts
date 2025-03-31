@@ -9,6 +9,7 @@ export type { UploadParams } from './azure/storage/uploadBlob';
 
 //Azure AI
 export { generateCompletion } from './azure/ai/generateCompletion';
+export { transcribeAudio } from './azure/ai/transcribeAudio';
 
 //Database
 export { executeSqlQuery } from './database/mssql/executeSQLQuery';

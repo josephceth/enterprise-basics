@@ -24,6 +24,7 @@ npm install enterprise-basics
 
 - `generateCompletion`: Generates a single-turn completion using Azure-hosted OpenAI models.
   Designed for one-off completions and should not be used for maintaining chat history or conversational interactions.
+- `transcribeAudio`: Transcribes audio using Azure OpenAI's Whisper model.
 
 ### Database
 
@@ -118,7 +119,7 @@ const configValue = await getAzureConfigValue('myApp.setting', 'dev');
 ### Azure AI (Single-turn Completion)
 
 ```typescript
-import { generateCompletion } from 'enterprise-basics';
+import { generateCompletion, transcribeAudio } from 'enterprise-basics';
 
 // Note: This is for single-turn completions only, not for chat/conversations
 const completion = await generateCompletion(
@@ -130,6 +131,15 @@ const completion = await generateCompletion(
     { role: 'user', content: 'What is the capital of France?' },
   ],
   { temperature: 0.7 },
+);
+
+// Transcribe audio
+const transcription = await transcribeAudio(
+  'https://your-resource.openai.azure.com',
+  'your-api-key',
+  'your-whisper-deployment',
+  audioFile,
+  { language: 'en' },
 );
 ```
 

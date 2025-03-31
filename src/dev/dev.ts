@@ -7,7 +7,11 @@ import { readExcelSheetData } from '../excel/readExcelSheetData';
 import { readTextFile } from '../fileSystem/readTextFile';
 import { graphUserSearchByEmail } from '../msGraph/graphUserSearchByEmail';
 import { generateCompletion } from '../azure/ai/generateCompletion';
+import { transcribeAudio } from '../azure/ai/transcribeAudio';
 import { sendEmail, SMTPConfig, EmailWithAttachment } from '../email/sendEmail';
+import fs from 'fs';
+import path from 'path';
+
 async function main() {
   // console.log('Creating excel file...');
   // const data = [
@@ -59,8 +63,8 @@ async function main() {
   };
 
   const email: EmailWithAttachment = {
-    from: 'No Reply <no-reply@brownandroot.com>',
-    to: ['joseph.chustz@brownandroot.com'],
+    from: '',
+    to: [''],
     subject: 'Test Email',
     body: 'This is a test email',
   };
@@ -75,10 +79,16 @@ async function main() {
 
   const openaiEndpoint = process.env.OPENAI_ENDPOINT;
   const openaiApiKey = process.env.OPENAI_API_KEY;
+  const whisperEndPoint = process.env.OPENAI_WHISPER_ENDPOINT;
 
   console.log('openaiEndpoint', openaiEndpoint);
   console.log('openaiApiKey', openaiApiKey);
+  console.log('whisperEndPoint', whisperEndPoint);
   if (!openaiEndpoint || !openaiApiKey) {
+    throw new Error('Missing required environment variables');
+  }
+
+  if (!whisperEndPoint || !openaiApiKey) {
     throw new Error('Missing required environment variables');
   }
 
@@ -90,6 +100,27 @@ async function main() {
     },
   ]);
   console.log('completion', completion);
+
+  //file at c:/temp/voiceRec.webm
+  const audioFilePath = 'C:\\temp\\voiceRec.webm';
+  console.log('Reading audio file from:', audioFilePath);
+  const fileBuffer = await fs.promises.readFile(audioFilePath);
+  console.log('File buffer size:', fileBuffer.length);
+  const audioFile = new File([fileBuffer], path.basename(audioFilePath), { type: 'audio/webm' });
+  console.log('Created audio file object:', {
+    name: audioFile.name,
+    size: audioFile.size,
+    type: audioFile.type,
+  });
+
+  console.log('Starting transcription...');
+  try {
+    const transcription = await transcribeAudio(whisperEndPoint, openaiApiKey, 'whisper', audioFile);
+    console.log('Transcription completed successfully:', transcription);
+  } catch (error) {
+    console.error('Transcription failed:', error);
+    throw error;
+  }
 }
 
 main().catch(console.error);
