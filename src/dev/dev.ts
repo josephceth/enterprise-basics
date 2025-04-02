@@ -42,14 +42,19 @@ async function main() {
   // const textFile = await readTextFile('c:/exports/sql.sql');
   // console.log('textFile', textFile);
 
+  const azureAppConfigEndpoint = process.env.AZURE_APP_CONFIG_CONNECTION_STRING;
+  if (!azureAppConfigEndpoint) {
+    throw new Error('Missing required environment variables');
+  }
+
   const [smtpHost, smtpPassword, smtpPort, smtpUsername, tenantId, clientId, clientSecret] = await Promise.all([
-    getAzureConfigValue('SMTP:Host', 'prod'),
-    getAzureConfigValue('SMTP:Password', 'prod'),
-    getAzureConfigValue('SMTP:Port', 'prod'),
-    getAzureConfigValue('SMTP:Username', 'prod'),
-    getAzureConfigValue('GraphExplorer:TenantId', 'prod'),
-    getAzureConfigValue('GraphExplorer:ClientId', 'prod'),
-    getAzureConfigValue('GraphExplorer:ClientSecret', 'prod'),
+    getAzureConfigValue('SMTP:Host', 'prod', azureAppConfigEndpoint),
+    getAzureConfigValue('SMTP:Password', 'prod', azureAppConfigEndpoint),
+    getAzureConfigValue('SMTP:Port', 'prod', azureAppConfigEndpoint),
+    getAzureConfigValue('SMTP:Username', 'prod', azureAppConfigEndpoint),
+    getAzureConfigValue('GraphExplorer:TenantId', 'prod', azureAppConfigEndpoint),
+    getAzureConfigValue('GraphExplorer:ClientId', 'prod', azureAppConfigEndpoint),
+    getAzureConfigValue('GraphExplorer:ClientSecret', 'prod', azureAppConfigEndpoint),
   ]);
 
   if (!smtpHost || !smtpPassword || !smtpPort || !smtpUsername || !tenantId || !clientId || !clientSecret) {

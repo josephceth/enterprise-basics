@@ -12,7 +12,7 @@ npm install enterprise-basics
 
 ### Azure App Configuration
 
-- `getAzureConfigValue`: Retrieves configuration values from Azure App Configuration with fallback to environment-specific labels.
+- `getAzureConfigValue`: Retrieves configuration values from Azure App Configuration. All parameters (key, label, and endpoint) are required. Used for retrieving endpoints, API keys, and other configuration values.
 
 ### Azure Storage
 
@@ -24,7 +24,7 @@ npm install enterprise-basics
 
 - `generateCompletion`: Generates a single-turn completion using Azure-hosted OpenAI models.
   Designed for one-off completions and should not be used for maintaining chat history or conversational interactions.
-- `transcribeAudio`: Transcribes audio using Azure OpenAI's Whisper model.
+- `transcribeAudio`: Transcribes audio using Azure OpenAI's Whisper model. The endpoint can be obtained from `getAppConfig('OPENAI_WHISPER_ENDPOINT', 'prod')`. Supports various audio formats including flac, m4a, mp3, mp4, mpeg, mpga, oga, ogg, wav, and webm.
 
 ### Database
 
