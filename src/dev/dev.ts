@@ -1,14 +1,14 @@
 import { createDelimitedFileBytes } from '../delimitedFiles/createDelimitedFileByteArray';
 import { createExcelFileByteArray } from '../excel/createExcelFileByteArray';
 import { saveFileBytesToPath } from '../fileSystem/saveFileBytesToPath';
-import { getAzureConfigValue } from '../azure/appConfig/getAppConfigValue';
+import { AzureAppConfig } from '../azure/appConfig/AzureAppConfig';
 import { importDelimitedFile } from '../delimitedFiles/importDelimitedFile';
 import { readExcelSheetData } from '../excel/readExcelSheetData';
 import { readTextFile } from '../fileSystem/readTextFile';
 import { graphUserSearchByEmail } from '../msGraph/graphUserSearchByEmail';
 import { generateCompletion } from '../azure/ai/generateCompletion';
 import { transcribeAudio } from '../azure/ai/transcribeAudio';
-import { sendEmail, SMTPConfig, EmailWithAttachment } from '../email/sendEmail';
+import { EmailClient, SMTPConfig, EmailWithAttachment } from '../email/EmailClient';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -51,14 +51,16 @@ async function main() {
     throw new Error('Missing required environment variables');
   }
 
+  const appConfig = new AzureAppConfig(azureAppConfigEndpoint, 'prod');
+
   const [smtpHost, smtpPassword, smtpPort, smtpUsername, tenantId, clientId, clientSecret] = await Promise.all([
-    getAzureConfigValue('SMTP:Host', 'prod', azureAppConfigEndpoint),
-    getAzureConfigValue('SMTP:Password', 'prod', azureAppConfigEndpoint),
-    getAzureConfigValue('SMTP:Port', 'prod', azureAppConfigEndpoint),
-    getAzureConfigValue('SMTP:Username', 'prod', azureAppConfigEndpoint),
-    getAzureConfigValue('GraphExplorer:TenantId', 'prod', azureAppConfigEndpoint),
-    getAzureConfigValue('GraphExplorer:ClientId', 'prod', azureAppConfigEndpoint),
-    getAzureConfigValue('GraphExplorer:ClientSecret', 'prod', azureAppConfigEndpoint),
+    appConfig.getAzureConfigValue('SMTP:Host'),
+    appConfig.getAzureConfigValue('SMTP:Password'),
+    appConfig.getAzureConfigValue('SMTP:Port'),
+    appConfig.getAzureConfigValue('SMTP:Username'),
+    appConfig.getAzureConfigValue('GraphExplorer:TenantId'),
+    appConfig.getAzureConfigValue('GraphExplorer:ClientId'),
+    appConfig.getAzureConfigValue('GraphExplorer:ClientSecret'),
   ]);
 
   if (!smtpHost || !smtpPassword || !smtpPort || !smtpUsername || !tenantId || !clientId || !clientSecret) {

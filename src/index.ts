@@ -1,5 +1,5 @@
 //Azure App Configuration
-export { getAzureConfigValue } from './azure/appConfig/getAppConfigValue';
+export { AzureAppConfig } from './azure/appConfig/AzureAppConfig';
 
 //Azure Storage
 export { uploadBlob } from './azure/storage/uploadBlob';
@@ -19,8 +19,8 @@ export { createDelimitedFileBytes } from './delimitedFiles/createDelimitedFileBy
 export { importDelimitedFile } from './delimitedFiles/importDelimitedFile';
 
 //Email
-export { sendEmail } from './email/sendEmail';
-export type { EmailWithAttachment, SMTPConfig, Attachment } from './email/sendEmail';
+export { EmailClient } from './email/EmailClient';
+export type { EmailWithAttachment, SMTPConfig, Attachment } from './email/EmailClient';
 
 //Excel
 export { readExcelSheetData } from './excel/readExcelSheetData';
