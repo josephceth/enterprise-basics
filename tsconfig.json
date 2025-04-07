@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es6", // or a later version if needed
-    "module": "commonjs",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "declaration": true, // generates .d.ts files for consumers
     "outDir": "./dist", // output directory for compiled files
     "rootDir": "./src", // source code directory
