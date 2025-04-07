@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { validateWithZod } from '../../utilities/zodUtility';
 
 const validationSchema = z.object({
-  key: z.string().min(1, 'Config key is required'),
+  endPoint: z.string().min(1, 'Config endpoint is required'),
   label: z.string().min(1, 'Label is required'),
 });
 

@@ -63,6 +63,14 @@ async function main() {
     appConfig.getAzureConfigValue('GraphExplorer:ClientSecret'),
   ]);
 
+  console.log('smtpHost', smtpHost);
+  console.log('smtpPassword', smtpPassword);
+  console.log('smtpPort', smtpPort);
+  console.log('smtpUsername', smtpUsername);
+  console.log('tenantId', tenantId);
+  console.log('clientId', clientId);
+  console.log('clientSecret', clientSecret);
+
   if (!smtpHost || !smtpPassword || !smtpPort || !smtpUsername || !tenantId || !clientId || !clientSecret) {
     throw new Error('Missing required environment variables');
   }
@@ -73,14 +81,16 @@ async function main() {
     auth: { user: smtpUsername, pass: smtpPassword },
   };
 
+  const emailClient = new EmailClient(smtpconfig);
+
   const email: EmailWithAttachment = {
-    from: '',
-    to: [''],
+    from: 'noreply@brownandroot.com',
+    to: ['joseph.chustz@brownandroot.com'],
     subject: 'Test Email',
     body: 'This is a test email',
   };
 
-  //ait sendEmail(email, smtpconfig);
+  await emailClient.sendEmail(email);
   // if (!tenantId || !clientId || !clientSecret) {
   //   throw new Error('Missing required environment variables');
   // }
@@ -92,9 +102,9 @@ async function main() {
   const openaiApiKey = process.env.OPENAI_API_KEY;
   const whisperEndPoint = process.env.OPENAI_WHISPER_ENDPOINT;
 
-  console.log('openaiEndpoint', openaiEndpoint);
-  console.log('openaiApiKey', openaiApiKey);
-  console.log('whisperEndPoint', whisperEndPoint);
+  // console.log('openaiEndpoint', openaiEndpoint);
+  // console.log('openaiApiKey', openaiApiKey);
+  // console.log('whisperEndPoint', whisperEndPoint);
   if (!openaiEndpoint || !openaiApiKey) {
     throw new Error('Missing required environment variables');
   }
