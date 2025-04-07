@@ -11,6 +11,9 @@ import { transcribeAudio } from '../azure/ai/transcribeAudio';
 import { sendEmail, SMTPConfig, EmailWithAttachment } from '../email/sendEmail';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 async function main() {
   // console.log('Creating excel file...');
@@ -43,6 +46,7 @@ async function main() {
   // console.log('textFile', textFile);
 
   const azureAppConfigEndpoint = process.env.AZURE_APP_CONFIG_CONNECTION_STRING;
+  console.log('azureAppConfigEndpoint', azureAppConfigEndpoint);
   if (!azureAppConfigEndpoint) {
     throw new Error('Missing required environment variables');
   }
@@ -74,7 +78,7 @@ async function main() {
     body: 'This is a test email',
   };
 
-  await sendEmail(email, smtpconfig);
+  //ait sendEmail(email, smtpconfig);
   // if (!tenantId || !clientId || !clientSecret) {
   //   throw new Error('Missing required environment variables');
   // }
@@ -121,7 +125,14 @@ async function main() {
   console.log('Starting transcription...');
   try {
     const transcription = await transcribeAudio(whisperEndPoint, openaiApiKey, 'whisper', audioFile);
+    const completion = await generateCompletion(openaiEndpoint, openaiApiKey, 'gpt-4o', [
+      {
+        role: 'user',
+        content: `Please summarize the following transcription: ${transcription}`,
+      },
+    ]);
     console.log('Transcription completed successfully:', transcription);
+    console.log('Summary:', completion);
   } catch (error) {
     console.error('Transcription failed:', error);
     throw error;

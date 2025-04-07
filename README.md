@@ -12,7 +12,7 @@ npm install enterprise-basics
 
 ### Azure App Configuration
 
-- `getAzureConfigValue`: Retrieves configuration values from Azure App Configuration. All parameters (key, label, and endpoint) are required. Used for retrieving endpoints, API keys, and other configuration values.
+- `AzureAppConfig`: Class for interacting with Azure App Configuration. Provides methods to retrieve configuration values from Azure App Configuration. Supports environment-specific configuration through labels.
 
 ### Azure Storage
 
@@ -55,41 +55,35 @@ npm install enterprise-basics
 
 ### Email
 
-### `sendEmail`
-
-Sends an email with optional attachments using SMTP.
+- `EmailClient`: Class for sending emails using SMTP. Provides methods to send emails with optional attachments. SMTP configuration is set during instantiation.
 
 ```typescript
-await sendEmail(
-  {
-    from: 'sender@example.com',
-    to: ['recipient@example.com'],
-    subject: 'Test Email',
-    body: 'This is a test email with attachment',
-    attachments: [
-      {
-        filename: 'test.pdf',
-        fileBytes: new Uint8Array([255, 255]),
-        contentType: 'application/pdf',
-      },
-    ],
-  },
-  {
-    host: 'smtp.example.com',
-    port: 587,
-    auth: { user: 'user', pass: 'pass' },
-  },
-);
+// Create an instance with SMTP configuration
+const emailClient = new EmailClient({
+  host: 'smtp.example.com',
+  port: 587,
+  auth: { user: 'user', pass: 'pass' },
+});
+
+// Send an email
+await emailClient.sendEmail({
+  from: 'sender@example.com',
+  to: ['recipient@example.com'],
+  subject: 'Test Email',
+  body: 'This is a test email with attachment',
+  attachments: [
+    {
+      filename: 'test.pdf',
+      fileBytes: new Uint8Array([255, 255]),
+      contentType: 'application/pdf',
+    },
+  ],
+});
 ```
 
-**Parameters:**
+### PDF
 
-- `email`: Email content including sender, recipients, subject, body, and attachments
-- `smtpConfig`: SMTP server configuration
-
-**Returns:** Promise that resolves when email is sent successfully
-
-**Throws:** Error if validation fails, client creation fails, or sending fails
+- `createPdfFromHtml`: Converts HTML content to a PDF file and returns it as a byte array. Supports custom page formats, orientation, and margins.
 
 ## Usage Examples
 
