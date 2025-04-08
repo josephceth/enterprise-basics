@@ -2,12 +2,12 @@ import * as sql from 'mssql';
 import { z } from 'zod';
 import { validateWithZod } from '../../utilities/zodUtility';
 
-export interface MSSQLDBConfig {
+export type MSSQLDBConfig = {
   user: string;
   password: string;
   server: string;
   database: string;
-}
+};
 
 const validationSchema = z.object({
   query: z.string().min(10, 'Query length is not long enough'),
