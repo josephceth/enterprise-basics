@@ -13,6 +13,7 @@ export { transcribeAudio } from './azure/ai/transcribeAudio';
 
 //Database
 export { executeSqlQuery } from './database/mssql/executeSQLQuery';
+export type { MSSQLDBConfig } from './database/mssql/executeSQLQuery';
 
 //Delimited Files
 export { createDelimitedFileBytes } from './delimitedFiles/createDelimitedFileByteArray';
