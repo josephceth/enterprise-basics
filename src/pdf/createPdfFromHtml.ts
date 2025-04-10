@@ -18,7 +18,7 @@ import puppeteer from 'puppeteer';
  *   console.error('Failed to generate PDF:', error);
  * }
  */
-export async function htmlToPdfBuffer(html: string): Promise<Uint8Array> {
+export async function createPdfFromHtml(html: string): Promise<Uint8Array> {
   const browser = await puppeteer.launch({
     headless: true, // Changed from 'new' to satisfy type checker
   });
