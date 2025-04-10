@@ -35,3 +35,6 @@ export { getEnvValue } from './fileSystem/getEnvValue';
 
 //MS Graph
 export { graphUserSearchByEmail } from './msGraph/graphUserSearchByEmail';
+
+//pdf
+export { createPdfFromHtml } from './pdf/createPdfFromHtml';
