@@ -84,6 +84,7 @@ await emailClient.sendEmail({
 ### PDF
 
 - `createPdfFromHtml`: Converts HTML content to a PDF file and returns it as a byte array. Supports custom page formats, orientation, and margins.
+- `htmlToPdfBuffer`: Converts HTML content to a PDF buffer using puppeteer. Returns the PDF content as a `Uint8Array`.
 
 ## Usage Examples
 
@@ -197,6 +198,21 @@ await sendEmail(
     auth: { user: 'user', pass: 'pass' },
   },
 );
+```
+
+### PDF Generation
+
+```typescript
+import { htmlToPdfBuffer } from 'enterprise-basics';
+
+const htmlContent = '<h1>Hello, PDF!</h1>';
+try {
+  const pdfBytes = await htmlToPdfBuffer(htmlContent);
+  // Save or use the pdfBytes
+  console.log('PDF generated successfully');
+} catch (error) {
+  console.error('Failed to generate PDF:', error);
+}
 ```
 
 ## Error Handling
