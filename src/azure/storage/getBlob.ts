@@ -11,7 +11,8 @@ const validationSchema = z.object({
 type GetParams = z.infer<typeof validationSchema>;
 
 /**
- * Downloads a blob from Azure Blob Storage
+ * Downloads a blob from Azure Blob Storage.
+ * **Note:** This function is intended for server-side use only due to the required connection string.
  *
  * @param {string} storageConnectionString - Azure Storage connection string
  * @param {string} containerName - Name of the blob container
@@ -20,11 +21,13 @@ type GetParams = z.infer<typeof validationSchema>;
  * @returns {Promise<Buffer>} The blob content as a Buffer
  *
  * @throws {Error}
+ *  - If executed in a client-side browser environment
  *  - If input validation fails
  *  - If container is not found
  *  - If blob download fails
  *
  * @example
+ * // Server-side example
  * try {
  *   const buffer = await getBlob(connectionString, 'my-container', 'path/to/file.txt');
  *   console.log('Download successful');
@@ -37,6 +40,11 @@ export async function getBlob(
   containerName: GetParams['containerName'],
   path: GetParams['path'],
 ): Promise<Buffer> {
+  // Check if running in a browser environment
+  if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+    throw new Error('getBlob cannot be executed in a client-side browser environment due to security risks.');
+  }
+
   // Validate inputs
   const validationResult = validateWithZod(validationSchema, {
     storageConnectionString,
