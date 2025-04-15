@@ -10,10 +10,10 @@ const validationSchema = z.object({
 type FileParams = z.infer<typeof validationSchema>;
 
 /**
- * Reads the contents of a text file from the specified path.
+ * Reads the contents of a text file from the specified path and removes newline/carriage return characters.
  *
  * @param {string} fullPath - The complete file path including filename and extension
- * @returns {Promise<string>} The contents of the text file
+ * @returns {Promise<string>} The contents of the text file as a single string with newlines and carriage returns removed.
  *
  * @throws {Error}
  * - When validation fails for input parameter
@@ -42,7 +42,10 @@ export async function readTextFile(fullPath: FileParams['fullPath']): Promise<st
       throw new Error(`File not found: ${normalizedPath}`);
     }
 
-    return fs.readFileSync(normalizedPath, 'utf-8');
+    const rawContent = fs.readFileSync(normalizedPath, 'utf-8');
+    // Remove all newline and carriage return characters
+    const cleanedContent = rawContent.replace(/\r?\n|\r/g, '');
+    return cleanedContent;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     throw new Error(`Failed to read file: ${errorMessage}`);

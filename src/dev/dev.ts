@@ -9,6 +9,8 @@ import { graphUserSearchByEmail } from '../msGraph/graphUserSearchByEmail';
 import { generateCompletion } from '../azure/ai/generateCompletion';
 import { transcribeAudio } from '../azure/ai/transcribeAudio';
 import { EmailClient, SMTPConfig, EmailWithAttachment } from '../email/EmailClient';
+import { createEmbeddings } from '../azure/ai/createEmbeddings';
+import { parsePDF } from '../pdf/parsePDF';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -53,7 +55,20 @@ async function main() {
 
   const appConfig = new AzureAppConfig(azureAppConfigEndpoint, 'prod');
 
-  const [smtpHost, smtpPassword, smtpPort, smtpUsername, tenantId, clientId, clientSecret] = await Promise.all([
+  const [
+    smtpHost,
+    smtpPassword,
+    smtpPort,
+    smtpUsername,
+    tenantId,
+    clientId,
+    clientSecret,
+    embeddingEndpoint,
+    embeddingApiKey,
+    embeddingInstanceName,
+    embeddingDeploymentName,
+    embeddingApiVersion,
+  ] = await Promise.all([
     appConfig.getAzureConfigValue('SMTP:Host'),
     appConfig.getAzureConfigValue('SMTP:Password'),
     appConfig.getAzureConfigValue('SMTP:Port'),
@@ -61,6 +76,11 @@ async function main() {
     appConfig.getAzureConfigValue('GraphExplorer:TenantId'),
     appConfig.getAzureConfigValue('GraphExplorer:ClientId'),
     appConfig.getAzureConfigValue('GraphExplorer:ClientSecret'),
+    appConfig.getAzureConfigValue('AI:EmbeddingsURL'),
+    appConfig.getAzureConfigValue('AI:EmbeddingsKey'),
+    appConfig.getAzureConfigValue('AI:EmbeddingsInstanceName'),
+    appConfig.getAzureConfigValue('AI:EmbeddingsDeploymentName'),
+    appConfig.getAzureConfigValue('AI:EmbeddingsApiVersion'),
   ]);
 
   console.log('smtpHost', smtpHost);
@@ -70,6 +90,11 @@ async function main() {
   console.log('tenantId', tenantId);
   console.log('clientId', clientId);
   console.log('clientSecret', clientSecret);
+  console.log('embeddingEndpoint', embeddingEndpoint);
+  console.log('embeddingApiKey', embeddingApiKey);
+  console.log('embeddingInstanceName', embeddingInstanceName);
+  console.log('embeddingDeploymentName', embeddingDeploymentName);
+  console.log('embeddingApiVersion', embeddingApiVersion);
 
   if (!smtpHost || !smtpPassword || !smtpPort || !smtpUsername || !tenantId || !clientId || !clientSecret) {
     throw new Error('Missing required environment variables');
@@ -134,21 +159,60 @@ async function main() {
     type: audioFile.type,
   });
 
-  console.log('Starting transcription...');
-  try {
-    const transcription = await transcribeAudio(whisperEndPoint, openaiApiKey, 'whisper', audioFile);
-    const completion = await generateCompletion(openaiEndpoint, openaiApiKey, 'gpt-4o', [
-      {
-        role: 'user',
-        content: `Please summarize the following transcription: ${transcription}`,
-      },
-    ]);
-    console.log('Transcription completed successfully:', transcription);
-    console.log('Summary:', completion);
-  } catch (error) {
-    console.error('Transcription failed:', error);
-    throw error;
-  }
+  // console.log('Starting transcription...');
+  // try {
+  //   const transcription = await transcribeAudio(whisperEndPoint, openaiApiKey, 'whisper', audioFile);
+  //   const completion = await generateCompletion(openaiEndpoint, openaiApiKey, 'gpt-4o', [
+  //     {
+  //       role: 'user',
+  //       content: `Please summarize the following transcription: ${transcription}`,
+  //     },
+  //   ]);
+  //   console.log('Transcription completed successfully:', transcription);
+  //   console.log('Summary:', completion);
+  // } catch (error) {
+  //   console.error('Transcription failed:', error);
+  //   throw error;
+  // }
+
+  const pdfFilePath = 'C:\\temp\\benefits.pdf';
+  const pdfPages = await parsePDF(pdfFilePath);
+  console.log('pdfPages', pdfPages.length);
+
+  //for the first 2 pages, run them through gpt-4o to get a summary of the page
+  // const page1Summary = await generateCompletion(openaiEndpoint, openaiApiKey, 'gpt-4o', [
+  //   {
+  //     role: 'user',
+  //     content: `Please analyze the following document and break it down into distinct sections based on its content and context. Provide a brief title or heading for each section you identify, even if the original document doesn't explicitly label them. Aim to create coherent and meaningful sections that are easy to understand and reflect the structure of the content.  this will be used as the basis for an llm chat bot for our employees to its imperative that the data remains unchanged as it is reformatted": ${pdfPages[7].pageContent}`,
+  //   },
+  // ]);
+
+  // console.log('page1Summary', page1Summary);
+
+  const page2Summary = await generateCompletion(openaiEndpoint, openaiApiKey, 'gpt-4o', [
+    {
+      role: 'user',
+      content: `Please analyze the following document and break it down into distinct sections based on its content and context. Provide a brief title or heading for each section you identify, even if the original document doesn't explicitly label them. Aim to create coherent and meaningful sections that are easy to understand and reflect the structure of the content.  this will be used as the basis for an llm chat bot for our employees to its imperative that the data remains unchanged as it is reformatted additionally, create a list of questions this information could answer": ${pdfPages[8].pageContent}`,
+    },
+  ]);
+
+  console.log('page2Summary', page2Summary);
+  // const pdfSummary = await generateCompletion(openaiEndpoint, openaiApiKey, 'gpt-4o', [
+  //   {
+  //     role: 'user',
+  //     content: ` "Please analyze the following document and break it down into distinct sections based on its content and context. Provide a brief title or heading for each section you identify, even if the original document doesn't explicitly label them. Aim to create coherent and meaningful sections that are easy to understand and reflect the structure of the content.  this will be used as the basis for an llm chat bot for our employees to its imperative that the data remains unchanged as it is reformatted": ${pdfText}`,
+  //   },
+  // ]);
+  // console.log('pdfSummary', pdfSummary);
+
+  const embeddings = await createEmbeddings(
+    [page2Summary],
+    embeddingApiKey,
+    embeddingInstanceName,
+    embeddingDeploymentName,
+    embeddingApiVersion,
+  );
+  console.log('embeddings', embeddings);
 }
 
 main().catch(console.error);

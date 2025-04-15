@@ -10,6 +10,7 @@ export type { UploadParams } from './azure/storage/uploadBlob';
 //Azure AI
 export { generateCompletion } from './azure/ai/generateCompletion';
 export { transcribeAudio } from './azure/ai/transcribeAudio';
+export { createEmbeddings } from './azure/ai/createEmbeddings';
 
 //Database
 export { executeSqlQuery } from './database/mssql/executeSQLQuery';
@@ -38,3 +39,4 @@ export { graphUserSearchByEmail } from './msGraph/graphUserSearchByEmail';
 
 //pdf
 export { createPdfFromHtml } from './pdf/createPdfFromHtml';
+export { parsePDF } from './pdf/parsePDF';
