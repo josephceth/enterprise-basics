@@ -1,6 +1,6 @@
 import { BlobServiceClient } from '@azure/storage-blob';
 import { z } from 'zod';
-import { validateWithZod } from '../../utilities/zodUtility';
+import { validateWithZod } from '../../utilities/zodUtility.js';
 
 const validationSchema = z.object({
   storageConnectionString: z.string().min(1, 'Storage connection string is required'),

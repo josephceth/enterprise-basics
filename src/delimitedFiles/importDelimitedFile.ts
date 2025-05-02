@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { parse } from 'csv-parse/sync';
 import * as fs from 'fs/promises';
-import { validateWithZod } from '../utilities/zodUtility';
+import { validateWithZod } from '../utilities/zodUtility.js';
 
 const validationSchema = z.object({
   filePath: z.string().min(1, 'File path is required').trim(),

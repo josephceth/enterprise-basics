@@ -1,6 +1,6 @@
 import * as sql from 'mssql';
+import { validateWithZod } from '../../utilities/zodUtility.js';
 import { z } from 'zod';
-import { validateWithZod } from '../../utilities/zodUtility';
 
 export type MSSQLDBConfig = {
   user: string;

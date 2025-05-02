@@ -1,6 +1,6 @@
-import * as Excel from 'exceljs';
+import * as ExcelJS from 'exceljs';
 import { z } from 'zod';
-import { validateWithZod } from '../utilities/zodUtility';
+import { validateWithZod } from '../utilities/zodUtility.js';
 import { existsSync } from 'fs';
 
 /**
@@ -12,11 +12,11 @@ export type ExcelCellValue =
   | boolean
   | Date
   | null
-  | Excel.CellErrorValue
-  | Excel.CellRichTextValue
-  | Excel.CellHyperlinkValue
-  | Excel.CellFormulaValue
-  | Excel.CellSharedFormulaValue;
+  | ExcelJS.CellErrorValue
+  | ExcelJS.CellRichTextValue
+  | ExcelJS.CellHyperlinkValue
+  | ExcelJS.CellFormulaValue
+  | ExcelJS.CellSharedFormulaValue;
 
 /**
  * Represents a row of data from an Excel sheet where each key is the column header
@@ -55,7 +55,7 @@ export async function readExcelSheetData(
     throw new Error(`File not found: ${filePath}`);
   }
 
-  const workbook = new Excel.Workbook();
+  const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(filePath);
 
   const worksheet = workbook.getWorksheet(sheetName);

@@ -1,6 +1,7 @@
 import { AzureOpenAI } from 'openai';
+import { AzureKeyCredential } from '@azure/core-auth';
+import { validateWithZod } from '../../utilities/zodUtility.js';
 import { z } from 'zod';
-import { validateWithZod } from '../../utilities/zodUtility';
 import type { TranscriptionCreateParams } from 'openai/resources/audio/transcriptions';
 
 const SUPPORTED_AUDIO_FORMATS = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'oga', 'ogg', 'wav', 'webm'] as const;
@@ -73,11 +74,7 @@ export async function transcribeAudio(
   }
 
   try {
-    const client = new AzureOpenAI({
-      endpoint,
-      apiKey,
-      apiVersion: '2025-01-01-preview',
-    });
+    const client = new AzureOpenAI({ endpoint, apiKey });
 
     const transcriptionOptions: TranscriptionCreateParams = {
       file: audioFile,

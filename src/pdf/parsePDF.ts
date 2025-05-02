@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import * as path from 'path';
-import { validateWithZod } from '../utilities/zodUtility';
+import { validateWithZod } from '../utilities/zodUtility.js';
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 
 const validationSchema = z.object({

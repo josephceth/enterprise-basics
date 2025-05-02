@@ -1,6 +1,6 @@
+import { validateWithZod } from '../utilities/zodUtility.js';
 import { z } from 'zod';
-import { validateWithZod } from '../utilities/zodUtility';
-import { getAzureAuthToken } from '../utilities/azureHelper';
+import { getAzureAuthToken } from '../utilities/azureHelper.js';
 
 const validationSchema = z.object({
   email: z.string().email('Invalid email address'),

@@ -1,6 +1,6 @@
 import * as ExcelJS from 'exceljs';
 import { z } from 'zod';
-import { validateWithZod } from '../utilities/zodUtility';
+import { validateWithZod } from '../utilities/zodUtility.js';
 
 // More specific validation schema
 const validationSchema = z.object({

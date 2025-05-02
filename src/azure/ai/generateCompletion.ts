@@ -1,6 +1,7 @@
 import { AzureOpenAI } from 'openai';
+import { AzureKeyCredential } from '@azure/core-auth';
+import { validateWithZod } from '../../utilities/zodUtility.js';
 import { z } from 'zod';
-import { validateWithZod } from '../../utilities/zodUtility';
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 
 const validationSchema = z.object({

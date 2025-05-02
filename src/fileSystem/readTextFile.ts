@@ -1,7 +1,7 @@
+import { z } from 'zod';
 import * as fs from 'fs';
 import * as path from 'path';
-import { z } from 'zod';
-import { validateWithZod } from '../utilities/zodUtility';
+import { validateWithZod } from '../utilities/zodUtility.js';
 
 const validationSchema = z.object({
   fullPath: z.string().min(1, 'File path is required'),

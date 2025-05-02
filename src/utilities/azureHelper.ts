@@ -1,7 +1,7 @@
 // This defines a function that is used to get a token for the ms graph api via https://login.microsoftonline.com/{tenantId} via a fetch request with a clientId and clientSecret
 
 import { z } from 'zod';
-import { validateWithZod } from './zodUtility';
+import { validateWithZod } from './zodUtility.js';
 
 const validationSchema = z.object({
   tenantId: z.string().min(1, 'Tenant ID is required'),

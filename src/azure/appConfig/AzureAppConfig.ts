@@ -1,6 +1,6 @@
 import { AppConfigurationClient } from '@azure/app-configuration';
 import { z } from 'zod';
-import { validateWithZod } from '../../utilities/zodUtility';
+import { validateWithZod } from '../../utilities/zodUtility.js';
 
 const validationSchema = z.object({
   endPoint: z.string().min(1, 'Config endpoint is required'),
