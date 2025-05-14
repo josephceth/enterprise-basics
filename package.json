@@ -1,29 +1,34 @@
 {
   "name": "enterprise-basics",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A utility library for enterprise applications. It streamlines common business tasks by providing functions to process delimited and Excel files, generate professional PDFs, and handle email communications with attachments.",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc -p tsconfig.cjs.json",
     "test": "test",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "start": "pnpm run build && node dist/dev/dev.js"
   },
-  "types": "dist/index.d.ts",
   "keywords": [
-    "\"utilities\"",
-    "\"enterprise\"",
-    "\"business\"",
-    "\"pdf\"",
-    "\"excel\"",
-    "\"email\"",
-    "\"file-processing\"",
-    "\"typescript\"",
-    "\"nodejs\""
+    "utilities",
+    "enterprise",
+    "business",
+    "pdf",
+    "excel",
+    "email",
+    "file-processing",
+    "typescript",
+    "nodejs"
   ],
   "author": "joseph chustz",
   "license": "MIT",
