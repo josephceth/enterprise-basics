@@ -31,7 +31,7 @@ export type { ExcelRow, ExcelCellValue } from './excel/readExcelSheetData.js';
 
 //File System
 export { saveFileBytesToPath } from './fileSystem/saveFileBytesToPath.js';
-export { readTextFile } from './fileSystem/readTextFile.js';
+export { readTextFileCleaned, readTextFileRaw } from './fileSystem/readTextFile.js';
 export { getEnvValue } from './fileSystem/getEnvValue.js';
 
 //MS Graph
