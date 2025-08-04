@@ -93,7 +93,7 @@ export class EmailClient {
    * - Email client creation fails
    * - Sending email fails
    */
-  async sendEmail(email: EmailWithAttachment): Promise<void> {
+  async sendEmail(email: EmailWithAttachment, isDev: boolean = false): Promise<void> {
     let emailClient: nodemailer.Transporter | null = null;
 
     try {
@@ -111,8 +111,8 @@ export class EmailClient {
         from: email.from,
         to: email.to.join(', '),
         cc: email.cc?.join(', '),
-        subject: email.subject,
-        html: email.body,
+        subject: isDev ? `[TESTING] - ${email.subject}` : email.subject,
+        html: isDev ? `<p>THIS IS A TEST EMAIL. PLEASE DISREGARD.</p> ${email.body}` : email.body,
         attachments,
       };
 
