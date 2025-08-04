@@ -63,7 +63,8 @@ const validationSchema = z.object({
  * });
  */
 export class EmailClient {
-  private smtpConfig: SMTPConfig;
+  private _smtpConfig: SMTPConfig;
+  private _isDev: boolean;
 
   /**
    * Creates a new instance of EmailClient.
@@ -72,13 +73,14 @@ export class EmailClient {
    *
    * @throws {Error} If validation of SMTP configuration fails
    */
-  constructor(smtpConfig: SMTPConfig) {
+  constructor(smtpConfig: SMTPConfig, isDev: boolean = false) {
     const validationResult = validateWithZod(validationSchema, { smtpConfig });
     if (validationResult.isError) {
       throw new Error(`SMTP config validation failed: ${JSON.stringify(validationResult.error)}`);
     }
 
-    this.smtpConfig = smtpConfig;
+    this._smtpConfig = smtpConfig;
+    this._isDev = isDev;
   }
 
   /**
@@ -93,12 +95,12 @@ export class EmailClient {
    * - Email client creation fails
    * - Sending email fails
    */
-  async sendEmail(email: EmailWithAttachment, isDev: boolean = false): Promise<void> {
+  async sendEmail(email: EmailWithAttachment): Promise<void> {
     let emailClient: nodemailer.Transporter | null = null;
 
     try {
       // Create email client
-      emailClient = nodemailer.createTransport(this.smtpConfig);
+      emailClient = nodemailer.createTransport(this._smtpConfig);
       let attachments: nodemailer.SendMailOptions['attachments'];
       if (email.attachments != null) {
         attachments = email.attachments?.map((attachment) => ({
@@ -111,8 +113,8 @@ export class EmailClient {
         from: email.from,
         to: email.to.join(', '),
         cc: email.cc?.join(', '),
-        subject: isDev ? `[TESTING] - ${email.subject}` : email.subject,
-        html: isDev ? `<p>THIS IS A TEST EMAIL. PLEASE DISREGARD.</p> ${email.body}` : email.body,
+        subject: this._isDev ? `[TESTING] - ${email.subject}` : email.subject,
+        html: this._isDev ? `<p>THIS IS A TEST EMAIL. PLEASE DISREGARD.</p> ${email.body}` : email.body,
         attachments,
       };
 
