@@ -7,30 +7,20 @@ export default defineConfig({
   outDir: 'dist',
   splitting: false,
   clean: true,
-  // Don't bundle any dependencies - treat as a library
-  noExternal: [],
-  // Mark all dependencies as external
-  external: [
-    // All your dependencies should be external
-    '@azure/app-configuration',
-    '@azure/core-auth',
-    '@azure/openai',
-    '@azure/storage-blob',
-    '@langchain/community',
-    '@langchain/core',
-    '@langchain/openai',
-    'csv-parse',
-    'dotenv',
-    'exceljs',
-    'mssql',
-    'nodemailer',
-    'openai',
-    'pdf-lib',
-    'pdf-parse',
-    'zod',
-    // Node.js built-ins
+  // Bundle dependencies that cause dynamic require issues
+  noExternal: [
+    'proxy-agent',
+    'agent-base',
+    'http-proxy-agent',
+    'https-proxy-agent',
+    'socks-proxy-agent',
+    'pac-proxy-agent',
     'ws',
     'events',
+  ],
+  // Only externalize Node.js built-ins and major frameworks
+  external: [
+    // Node.js built-ins (but not the problematic ones)
     'fs',
     'net',
     'tls',
@@ -38,8 +28,6 @@ export default defineConfig({
     'stream',
     'path',
     'crypto',
-    'http',
-    'https',
     'url',
     'querystring',
     'buffer',
@@ -62,10 +50,20 @@ export default defineConfig({
     'v8',
     'vm',
     'worker_threads',
+    // Major frameworks that should be external
+    '@sveltejs/kit',
+    'svelte',
+    'vite',
   ],
   treeshake: true,
   minify: false,
   sourcemap: true,
   platform: 'node',
   target: 'node18',
+  esbuildOptions(options) {
+    // Ensure proper module resolution
+    options.mainFields = ['module', 'main'];
+    // Handle dynamic requires properly
+    options.keepNames = true;
+  },
 });
