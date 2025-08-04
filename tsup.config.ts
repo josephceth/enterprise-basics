@@ -1,0 +1,52 @@
+import { defineConfig } from 'tsup';
+
+export default defineConfig({
+  entry: ['src/index.ts'],
+  format: ['esm', 'cjs'],
+  dts: true,
+  outDir: 'dist',
+  splitting: true,
+  clean: true,
+  external: [
+    // Node.js built-in modules
+    'ws',
+    'events',
+    'fs',
+    'net',
+    'tls',
+    'zlib',
+    'stream',
+    'path',
+    'crypto',
+    'http',
+    'https',
+    'url',
+    'querystring',
+    'buffer',
+    'util',
+    'os',
+    'child_process',
+    'cluster',
+    'dgram',
+    'dns',
+    'domain',
+    'module',
+    'process',
+    'punycode',
+    'readline',
+    'repl',
+    'string_decoder',
+    'sys',
+    'timers',
+    'tty',
+    'v8',
+    'vm',
+    'worker_threads',
+  ],
+  // Ensure proper tree-shaking
+  treeshake: true,
+  // Minify for production
+  minify: false,
+  // Source maps for debugging
+  sourcemap: true,
+});

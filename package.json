@@ -1,6 +1,6 @@
 {
   "name": "enterprise-basics",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "A utility library for enterprise applications. It streamlines common business tasks by providing functions to process delimited and Excel files, generate professional PDFs, and handle email communications with attachments.",
   "type": "module",
   "main": "dist/index.cjs",
@@ -14,7 +14,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --dts --format esm,cjs --out-dir dist",
+    "build": "tsup",
     "test": "test",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "start": "pnpm run build && node dist/dev/dev.js"
