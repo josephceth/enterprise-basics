@@ -7,20 +7,11 @@ export default defineConfig({
   outDir: 'dist',
   splitting: false,
   clean: true,
-  // Bundle dependencies that cause dynamic require issues
-  noExternal: [
-    'proxy-agent',
-    'agent-base',
-    'http-proxy-agent',
-    'https-proxy-agent',
-    'socks-proxy-agent',
-    'pac-proxy-agent',
-    'ws',
-    'events',
-  ],
+  // Bundle everything except Node.js built-ins and major frameworks
+  noExternal: [/.*/],
   // Only externalize Node.js built-ins and major frameworks
   external: [
-    // Node.js built-ins (but not the problematic ones)
+    // Node.js built-ins
     'fs',
     'net',
     'tls',
@@ -65,5 +56,9 @@ export default defineConfig({
     options.mainFields = ['module', 'main'];
     // Handle dynamic requires properly
     options.keepNames = true;
+    // Disable code splitting to avoid issues
+    options.splitting = false;
+    // Bundle everything into a single file
+    options.bundle = true;
   },
 });
