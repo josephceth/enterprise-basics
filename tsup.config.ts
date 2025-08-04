@@ -11,26 +11,18 @@ export default defineConfig({
   noExternal: [/.*/],
   // Only externalize Node.js built-ins and major frameworks
   external: [
-    // Node.js built-ins
+    // Node.js built-ins (excluding those used by bundled dependencies)
     'fs',
-    'net',
-    'tls',
-    'zlib',
-    'stream',
     'path',
     'crypto',
-    'url',
-    'querystring',
     'buffer',
     'util',
     'os',
-    'child_process',
     'cluster',
     'dgram',
     'dns',
     'domain',
     'module',
-    'process',
     'punycode',
     'readline',
     'repl',
