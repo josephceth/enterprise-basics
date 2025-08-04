@@ -1,15 +1,17 @@
 {
   "name": "enterprise-basics",
-  "version": "1.6.8",
+  "version": "2.0.0",
   "description": "A utility library for enterprise applications. It streamlines common business tasks by providing functions to process delimited and Excel files, generate professional PDFs, and handle email communications with attachments.",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
   "sideEffects": false,
@@ -39,31 +41,31 @@
   "license": "MIT",
   "devDependencies": {
     "@types/mssql": "^9.1.7",
-    "@types/node": "^22.13.1",
+    "@types/node": "^22.17.0",
     "@types/nodemailer": "^6.4.17",
     "@types/puppeteer": "^7.0.4",
-    "prettier": "^3.5.0",
-    "puppeteer": "^24.6.1",
+    "prettier": "^3.6.2",
+    "puppeteer": "^24.15.0",
     "ts-node": "^10.9.2",
-    "tsup": "^8.4.0",
-    "typescript": "^5.7.3"
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@azure/app-configuration": "^1.8.0",
-    "@azure/core-auth": "^1.9.0",
+    "@azure/app-configuration": "^1.9.0",
+    "@azure/core-auth": "^1.10.0",
     "@azure/openai": "^2.0.0",
-    "@azure/storage-blob": "^12.27.0",
-    "@langchain/community": "^0.3.40",
-    "@langchain/core": "^0.3.44",
-    "@langchain/openai": "^0.5.5",
+    "@azure/storage-blob": "^12.28.0",
+    "@langchain/community": "^0.3.49",
+    "@langchain/core": "^0.3.66",
+    "@langchain/openai": "^0.5.18",
     "csv-parse": "^5.6.0",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.6.1",
     "exceljs": "^4.4.0",
     "mssql": "^11.0.1",
-    "nodemailer": "^6.10.0",
-    "openai": "^4.28.0",
+    "nodemailer": "^6.10.1",
+    "openai": "^4.104.0",
     "pdf-lib": "^1.17.1",
     "pdf-parse": "^1.1.1",
-    "zod": "^3.24.2"
+    "zod": "^3.25.76"
   }
 }

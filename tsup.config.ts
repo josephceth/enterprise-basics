@@ -50,7 +50,7 @@ export default defineConfig({
   minify: false,
   sourcemap: false, // Disable sourcemaps to avoid conflicts
   platform: 'node',
-  target: 'node18',
+  target: 'node22',
   esbuildOptions(options) {
     // Ensure proper module resolution
     options.mainFields = ['module', 'main'];
