@@ -48,7 +48,7 @@ export default defineConfig({
   ],
   treeshake: true,
   minify: false,
-  sourcemap: true,
+  sourcemap: false, // Disable sourcemaps to avoid conflicts
   platform: 'node',
   target: 'node18',
   esbuildOptions(options) {
@@ -58,7 +58,7 @@ export default defineConfig({
     options.keepNames = true;
     // Disable code splitting to avoid issues
     options.splitting = false;
-    // Bundle everything into a single file
-    options.bundle = true;
+    // Disable sourcemaps in esbuild as well
+    options.sourcemap = false;
   },
 });
