@@ -5,10 +5,30 @@ export default defineConfig({
   format: ['esm', 'cjs'],
   dts: true,
   outDir: 'dist',
-  splitting: true,
+  splitting: false,
   clean: true,
+  // Don't bundle any dependencies - treat as a library
+  noExternal: [],
+  // Mark all dependencies as external
   external: [
-    // Node.js built-in modules
+    // All your dependencies should be external
+    '@azure/app-configuration',
+    '@azure/core-auth',
+    '@azure/openai',
+    '@azure/storage-blob',
+    '@langchain/community',
+    '@langchain/core',
+    '@langchain/openai',
+    'csv-parse',
+    'dotenv',
+    'exceljs',
+    'mssql',
+    'nodemailer',
+    'openai',
+    'pdf-lib',
+    'pdf-parse',
+    'zod',
+    // Node.js built-ins
     'ws',
     'events',
     'fs',
@@ -43,10 +63,9 @@ export default defineConfig({
     'vm',
     'worker_threads',
   ],
-  // Ensure proper tree-shaking
   treeshake: true,
-  // Minify for production
   minify: false,
-  // Source maps for debugging
   sourcemap: true,
+  platform: 'node',
+  target: 'node18',
 });
