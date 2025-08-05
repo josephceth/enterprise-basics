@@ -103,12 +103,12 @@ export async function generateCompletion(
     const completionOptions = {
       model: deploymentName,
       messages,
-      temperature: options.temperature,
-      max_tokens: options.maxTokens,
-      top_p: options.topP,
-      frequency_penalty: options.frequencyPenalty,
-      presence_penalty: options.presencePenalty,
-      stop: options.stop,
+      ...(options.temperature !== undefined && { temperature: options.temperature }),
+      ...(options.maxTokens !== undefined && { max_tokens: options.maxTokens }),
+      ...(options.topP !== undefined && { top_p: options.topP }),
+      ...(options.frequencyPenalty !== undefined && { frequency_penalty: options.frequencyPenalty }),
+      ...(options.presencePenalty !== undefined && { presence_penalty: options.presencePenalty }),
+      ...(options.stop !== undefined && { stop: options.stop }),
       ...(options.returnJson && { response_format: { type: 'json_object' as const } }),
     };
 

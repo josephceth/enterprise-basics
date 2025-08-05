@@ -69,7 +69,7 @@ export async function createExcelFileByteArray(
     const worksheet = workbook.addWorksheet(sheetName);
 
     // Configure columns based on data headers
-    const headers = Object.keys(data[0]);
+    const headers = Object.keys(data[0]!);
     worksheet.columns = headers.map((header) => ({
       header,
       key: header,

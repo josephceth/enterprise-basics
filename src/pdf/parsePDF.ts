@@ -52,7 +52,7 @@ export async function parsePDF(fullPath: PdfParams['fullPath']): Promise<any> {
     const docs = await loader.load();
 
     // Since splitPages is false, we expect exactly one document
-    if (!docs || docs.length === 0 || !docs[0].pageContent) {
+    if (!docs || docs.length === 0 || !docs[0]!.pageContent) {
       throw new Error('No content extracted from PDF.');
     }
 

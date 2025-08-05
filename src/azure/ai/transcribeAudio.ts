@@ -79,8 +79,8 @@ export async function transcribeAudio(
     const transcriptionOptions: TranscriptionCreateParams = {
       file: audioFile,
       model: deploymentName,
-      language: options.language,
-      prompt: options.prompt,
+      ...(options.language && { language: options.language }),
+      ...(options.prompt && { prompt: options.prompt }),
       response_format: 'text',
     };
 
