@@ -40,3 +40,14 @@ export { graphUserSearchByEmail } from './msGraph/graphUserSearchByEmail.js';
 //pdf
 export { createPdfFromHtml } from './pdf/createPdfFromHtml.js';
 export { parsePDF } from './pdf/parsePDF.js';
+
+//Vercel AI
+export { generateLLMTextResponse } from './ai/vercel/aiCompletions.js';
+export { generateLLMStreamedTextResponse } from './ai/vercel/aiCompletions.js';
+export { consolidateLLMConversation } from './ai/vercel/aiCompletions.js';
+export { generateLLMStructuredOutput } from './ai/vercel/aiStructuredOutput.js';
+export { createAzureLLMClient } from './ai/vercel/aiClient.js';
+export { createOpenAILLMClient } from './ai/vercel/aiClient.js';
+export type { AzureAIFoundryConfig } from './ai/vercel/aiClient.js';
+export type { OpenAISchema } from './ai/vercel/aiClient.js';
+export type { generationOptionsSchema } from './ai/vercel/aiStructuredOutput.js';
