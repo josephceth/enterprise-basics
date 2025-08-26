@@ -51,3 +51,4 @@ export { createOpenAILLMClient } from './ai/vercel/aiClient.js';
 export type { AzureAIFoundryConfig } from './ai/vercel/aiClient.js';
 export type { OpenAISchema } from './ai/vercel/aiClient.js';
 export type { generationOptionsSchema } from './ai/vercel/aiStructuredOutput.js';
+export type { LanguageModel } from 'ai';
