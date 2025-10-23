@@ -13,7 +13,7 @@ const validationSchema = z.object({
   query: z.string().min(10, 'Query length is not long enough'),
 });
 
-export async function executeSqlQuery(dbConfig: MSSQLDBConfig, query: string) {
+export async function executeSqlQuery(dbConfig: MSSQLDBConfig, query: string, options: sql.IOptions | null = null) {
   const validationResult = validateWithZod(validationSchema, { query });
 
   if (validationResult.isError) {
@@ -22,7 +22,7 @@ export async function executeSqlQuery(dbConfig: MSSQLDBConfig, query: string) {
 
   const configWithCertOptions = {
     ...dbConfig,
-    options: {
+    options: options ?? {
       encrypt: true,
       trustServerCertificate: true,
     },
