@@ -1,7 +1,7 @@
 import { AzureOpenAI } from 'openai';
 import { AzureKeyCredential } from '@azure/core-auth';
 import { validateWithZod } from '../../utilities/zodUtility.js';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 
 const validationSchema = z.object({
@@ -16,7 +16,7 @@ const validationSchema = z.object({
     }),
   ) as z.ZodType<ChatCompletionMessageParam[]>,
   temperature: z.number().min(0).max(2).optional(),
-  maxTokens: z.number().min(1).optional(),
+  maxOutputTokens: z.number().min(1).optional(),
   topP: z.number().min(0).max(1).optional(),
   frequencyPenalty: z.number().min(-2).max(2).optional(),
   presencePenalty: z.number().min(-2).max(2).optional(),
@@ -104,7 +104,7 @@ export async function generateCompletion(
       model: deploymentName,
       messages,
       ...(options.temperature !== undefined && { temperature: options.temperature }),
-      ...(options.maxTokens !== undefined && { max_tokens: options.maxTokens }),
+      ...(options.maxOutputTokens !== undefined && { max_tokens: options.maxOutputTokens }),
       ...(options.topP !== undefined && { top_p: options.topP }),
       ...(options.frequencyPenalty !== undefined && { frequency_penalty: options.frequencyPenalty }),
       ...(options.presencePenalty !== undefined && { presence_penalty: options.presencePenalty }),

@@ -1,6 +1,6 @@
 import nodemailer, { type SentMessageInfo, type Transporter } from 'nodemailer';
 import { validateWithZod } from '../utilities/zodUtility.js';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 export interface Attachment {
   filename?: string;

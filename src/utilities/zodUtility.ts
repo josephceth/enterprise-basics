@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 export function validateWithZod(schema: z.ZodSchema, data: any) {
   try {

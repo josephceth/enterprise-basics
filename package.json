@@ -1,6 +1,6 @@
 {
   "name": "enterprise-basics",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "A utility library for enterprise applications. It streamlines common business tasks by providing functions to process delimited and Excel files, generate professional PDFs, and handle email communications with attachments.",
   "type": "module",
   "engines": {
@@ -40,24 +40,25 @@
   "author": "joseph chustz",
   "license": "MIT",
   "devDependencies": {
-    "@types/mssql": "^9.1.7",
-    "@types/node": "^22.17.0",
-    "@types/nodemailer": "^6.4.17",
-    "prettier": "^3.6.2",
-    "typescript": "^5.9.2"
+    "@types/mssql": "^9.1.9",
+    "@types/node": "^22.19.7",
+    "@types/nodemailer": "^6.4.21",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@ai-sdk/azure": "^2.0.19",
-    "@ai-sdk/openai": "^2.0.19",
-    "@azure/app-configuration": "^1.9.0",
-    "@azure/core-auth": "^1.10.0",
+    "@ai-sdk/azure": "^2.0.91",
+    "@ai-sdk/openai": "^2.0.89",
+    "@azure/app-configuration": "^1.10.0",
+    "@azure/core-auth": "^1.10.1",
     "@azure/openai": "^2.0.0",
-    "@azure/storage-blob": "^12.28.0",
-    "@langchain/community": "^0.3.49",
-    "@langchain/core": "^0.3.66",
+    "@azure/search-documents": "^12.2.0",
+    "@azure/storage-blob": "^12.30.0",
+    "@langchain/community": "^0.3.59",
+    "@langchain/core": "^0.3.80",
     "@langchain/openai": "^0.5.18",
     "add": "^2.0.6",
-    "ai": "^5.0.22",
+    "ai": "^6.0.49",
     "csv-parse": "^5.6.0",
     "dotenv": "^16.6.1",
     "exceljs": "^4.4.0",
@@ -65,8 +66,9 @@
     "nodemailer": "^6.10.1",
     "openai": "^4.104.0",
     "pdf-lib": "^1.17.1",
-    "pdf-parse": "^1.1.1",
-    "puppeteer": "^24.15.0",
+    "pdf-parse": "^1.1.4",
+    "puppeteer": "^24.36.0",
+    "twilio": "^5.12.0",
     "zod": "^3.25.76"
   }
 }

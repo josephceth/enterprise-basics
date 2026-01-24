@@ -1,8 +1,8 @@
 import { createAzure } from '@ai-sdk/azure';
 import { createOpenAI } from '@ai-sdk/openai';
-import type { LanguageModel } from 'ai';
+import type { LanguageModel, EmbeddingModel } from 'ai';
 
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 //Azure AI Foundry Schema
 const azureAIFoundrySchema = z.object({
@@ -25,6 +25,17 @@ export const createAzureLLMClient = (resourceName: string, apiKey: string, model
   return model;
 };
 
+export const createAzureEmbeddingClient = (resourceName: string, apiKey: string, modelName: string): EmbeddingModel<string> => {
+  const validatedConfig = azureAIFoundrySchema.parse({ resourceName, apiKey });
+
+  const azure = createAzure({
+    resourceName: validatedConfig.resourceName,
+    apiKey: validatedConfig.apiKey,
+  });
+
+  return azure.embedding(modelName);
+};
+
 //OpenAI Schema
 const openAISchema = z.object({
   apiKey: z.string().min(1, 'API key is required').trim(),
@@ -43,4 +54,14 @@ export const createOpenAILLMClient = (apiKey: string, modelName: string): Langua
   const model = openAI.languageModel(modelName);
 
   return model;
+};
+
+export const createOpenAIEmbeddingClient = (apiKey: string, modelName: string): EmbeddingModel<string> => {
+  const validatedConfig = openAISchema.parse({ apiKey, modelName });
+
+  const openAI = createOpenAI({
+    apiKey: validatedConfig.apiKey,
+  });
+
+  return openAI.embedding(modelName);
 };

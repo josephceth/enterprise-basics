@@ -1,5 +1,5 @@
 import { validateWithZod } from '../utilities/zodUtility.js';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { getAzureAuthToken } from '../utilities/azureHelper.js';
 
 const validationSchema = z.object({

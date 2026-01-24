@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const inputSchema = z.object({
   data: z

@@ -1,5 +1,5 @@
 import { AppConfigurationClient } from '@azure/app-configuration';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { validateWithZod } from '../../utilities/zodUtility.js';
 
 const validationSchema = z.object({

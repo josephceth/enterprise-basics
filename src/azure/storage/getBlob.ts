@@ -1,5 +1,5 @@
 import { BlobServiceClient } from '@azure/storage-blob';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { validateWithZod } from '../../utilities/zodUtility.js';
 
 const validationSchema = z.object({

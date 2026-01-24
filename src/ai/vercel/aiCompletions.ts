@@ -1,5 +1,5 @@
 import { generateText, generateObject, streamText, type LanguageModel } from 'ai';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 /**
  * Basic schema for AI text generation
@@ -13,7 +13,7 @@ const schema = z.object({
   prompt: z.string().min(1, 'Prompt is required'),
   // Optional parameters - limited to basic options only
   options: z.object({
-    maxTokens: z.number().min(1, 'Max tokens is required'),
+    maxOutputTokens: z.number().min(1, 'Max tokens is required'),
     temperature: z.number().min(0).max(1).default(0.7),
   }),
 });
@@ -69,7 +69,7 @@ export const generateLLMStreamedTextResponse = async (
   messages: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>,
   options?: z.infer<typeof schema.shape.options>,
 ) => {
-  const result = await streamText({
+  const result = streamText({
     model,
     system: systemPrompt,
     messages,

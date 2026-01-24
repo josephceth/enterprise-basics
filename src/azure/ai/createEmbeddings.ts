@@ -1,5 +1,5 @@
 import { AzureOpenAIEmbeddings } from '@langchain/openai';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { validateWithZod } from '../../utilities/zodUtility.js';
 
 // Define validation schema for input parameters

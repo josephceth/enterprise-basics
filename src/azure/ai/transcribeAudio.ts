@@ -1,7 +1,7 @@
 import { AzureOpenAI } from 'openai';
 import { AzureKeyCredential } from '@azure/core-auth';
 import { validateWithZod } from '../../utilities/zodUtility.js';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import type { TranscriptionCreateParams } from 'openai/resources/audio/transcriptions';
 
 const SUPPORTED_AUDIO_FORMATS = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'oga', 'ogg', 'wav', 'webm'] as const;

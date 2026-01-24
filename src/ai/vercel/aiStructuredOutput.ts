@@ -1,9 +1,9 @@
 import { generateObject, type LanguageModel } from 'ai';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 // Options schema for generic functions
 export const generationOptionsSchema = z.object({
-  maxTokens: z.number().min(1, 'Max tokens is required'),
+  maxOutputTokens: z.number().min(1, 'Max tokens is required'),
   temperature: z.number().min(0).max(1).default(0.7),
 });
 

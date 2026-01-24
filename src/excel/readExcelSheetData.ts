@@ -1,5 +1,5 @@
 import * as ExcelJS from 'exceljs';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { validateWithZod } from '../utilities/zodUtility.js';
 import { existsSync } from 'fs';
 

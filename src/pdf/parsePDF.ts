@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import * as path from 'path';
 import { validateWithZod } from '../utilities/zodUtility.js';
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
