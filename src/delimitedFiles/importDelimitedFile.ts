@@ -65,7 +65,7 @@ export async function importDelimitedFile(
       bom: true,
       relax_quotes: true,
       relax_column_count: true,
-    });
+    }) as Record<string, unknown>[];
 
     return records;
   } catch (error) {

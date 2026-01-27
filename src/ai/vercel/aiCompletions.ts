@@ -42,7 +42,7 @@ export const generateLLMTextResponse = async (
   systemPrompt: string,
   prompt: string,
   options?: z.infer<typeof schema.shape.options>,
-) => {
+): Promise<Awaited<ReturnType<typeof generateText>>> => {
   const result = await generateText({
     model,
     system: systemPrompt,
@@ -68,7 +68,7 @@ export const generateLLMStreamedTextResponse = async (
   systemPrompt: string,
   messages: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>,
   options?: z.infer<typeof schema.shape.options>,
-) => {
+): Promise<ReturnType<typeof streamText>> => {
   const result = streamText({
     model,
     system: systemPrompt,

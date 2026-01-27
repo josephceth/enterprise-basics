@@ -9,11 +9,11 @@ const validationSchema = z.object({
 /**
  * Generates a vector embedding for the given text using the Vercel AI SDK.
  *
- * @param {EmbeddingModel<string>} embeddingModel - The initialized embedding model (OpenAI or Azure)
+ * @param {EmbeddingModel} embeddingModel - The initialized embedding model (OpenAI or Azure)
  * @param {string} text - The text content to convert into a vector
  * @returns {Promise<number[]>} The vector embedding as an array of numbers
  */
-export async function generateEmbedding(embeddingModel: EmbeddingModel<string>, text: string): Promise<number[]> {
+export async function generateEmbedding(embeddingModel: EmbeddingModel, text: string): Promise<number[]> {
   const validationResult = validateWithZod(validationSchema, { text });
 
   if (validationResult.isError) {

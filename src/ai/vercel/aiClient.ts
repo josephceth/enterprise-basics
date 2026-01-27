@@ -25,7 +25,7 @@ export const createAzureLLMClient = (resourceName: string, apiKey: string, model
   return model;
 };
 
-export const createAzureEmbeddingClient = (resourceName: string, apiKey: string, modelName: string): EmbeddingModel<string> => {
+export const createAzureEmbeddingClient = (resourceName: string, apiKey: string, modelName: string): EmbeddingModel => {
   const validatedConfig = azureAIFoundrySchema.parse({ resourceName, apiKey });
 
   const azure = createAzure({
@@ -56,7 +56,7 @@ export const createOpenAILLMClient = (apiKey: string, modelName: string): Langua
   return model;
 };
 
-export const createOpenAIEmbeddingClient = (apiKey: string, modelName: string): EmbeddingModel<string> => {
+export const createOpenAIEmbeddingClient = (apiKey: string, modelName: string): EmbeddingModel => {
   const validatedConfig = openAISchema.parse({ apiKey, modelName });
 
   const openAI = createOpenAI({
